@@ -1,12 +1,10 @@
 package com.mycompany.project_yml.domain;
 
 
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.mongodb.lang.NonNull;
+import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -15,54 +13,56 @@ import java.io.Serial;
 import java.io.Serializable;
 
 @Document(collection = "cliente")
+@CompoundIndex(
+        name = "idx_unique_cliente",
+        def = "{'numero_documento': 1, 'tipo_documento': 1}",
+        unique = true
+)
 public class Cliente implements Serializable {
 
     @Serial
-    private static final long serialVersionUID =1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     private String id;
 
-    @NonNull
-    @Size
+    @Nonnull
+    @Size(max = 50)
     @Field("numero_documento")
-    private String numerodocumento;
+    private String numeroDocumento;
 
-
-    @NonNull
-    @Size
-    @Field("primerNombre")
+    @Nonnull
+    @Size(max = 50)
+    @Field("primer_nombre")
     private String primerNombre;
 
-    @Size
-    @Field("segundoNombre")
+    @Size(max = 50)
+    @Field("segundo_nombre")
     private String segundoNombre;
 
-    @NonNull
-    @Size
-    @Field("primerApellido")
+    @Nonnull
+    @Size(max = 50)
+    @Field("primer_apellido")
     private String primerApellido;
 
-    @Size
-    @Field("segundoApellido")
-    private String segundoApellido;
+    @Size(max = 50)
+    @Field("segundo_apellido")
+    private String segundoApelligo;
 
-    @DBRef
     @Field("tipo_documento")
-    @JsonIgnoreProperties(value = {"clientes"}, allowSetters = true)
-    private TipoDocumento tipoDocumento;
+    private TipoDocumentoEmbedded tipoDocumentoEmbedded;
 
     @DocumentReference
     @Field("cuenta")
     private Cuenta cuenta;
 
-    public Cliente(String id, @NonNull String numerodocumento,@NonNull String primerNombre, String segundoNombre,@NonNull  String primerApellido, String segundoApellido) {
+    public Cliente(String id, @Nonnull String numeroDocumento, @Nonnull String primerNombre, String segundoNombre, @Nonnull String primerApellido, String segundoApelligo) {
         this.id = id;
-        this.numerodocumento = numerodocumento;
+        this.numeroDocumento = numeroDocumento;
         this.primerNombre = primerNombre;
         this.segundoNombre = segundoNombre;
         this.primerApellido = primerApellido;
-        this.segundoApellido = segundoApellido;
+        this.segundoApelligo = segundoApelligo;
     }
 
     public String getId() {
@@ -73,13 +73,13 @@ public class Cliente implements Serializable {
         this.id = id;
     }
 
-    @NonNull
-    public String getNumerodocumento() {
-        return numerodocumento;
+    @Nonnull
+    public String getNumeroDocumento() {
+        return numeroDocumento;
     }
 
-    public void setNumerodocumento(@NonNull String numerodocumento) {
-        this.numerodocumento = numerodocumento;
+    public void setNumeroDocumento(@Nonnull String numeroDocumento) {
+        this.numeroDocumento = numeroDocumento;
     }
 
     public String getPrimerNombre() {
@@ -106,20 +106,20 @@ public class Cliente implements Serializable {
         this.primerApellido = primerApellido;
     }
 
-    public String getSegundoApellido() {
-        return segundoApellido;
+    public String getSegundoApelligo() {
+        return segundoApelligo;
     }
 
-    public void setSegundoApellido(String segundoApellido) {
-        this.segundoApellido = segundoApellido;
+    public void setSegundoApelligo(String segundoApelligo) {
+        this.segundoApelligo = segundoApelligo;
     }
 
-    public TipoDocumento getTipoDocumento() {
-        return tipoDocumento;
+    public TipoDocumentoEmbedded getTipoDocumentoEmbedded() {
+        return tipoDocumentoEmbedded;
     }
 
-    public void setTipoDocumento(TipoDocumento tipoDocumento) {
-        this.tipoDocumento = tipoDocumento;
+    public void setTipoDocumentoEmbedded(TipoDocumentoEmbedded tipoDocumentoEmbedded) {
+        this.tipoDocumentoEmbedded = tipoDocumentoEmbedded;
     }
 
     public Cuenta getCuenta() {
