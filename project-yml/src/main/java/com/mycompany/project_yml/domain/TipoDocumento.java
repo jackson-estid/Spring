@@ -5,10 +5,13 @@ import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serial;
+import java.util.HashSet;
+import java.util.Set;
 
 @Document(collection = "tipo_documento") //esta anotacion indica que clase va a ser un documento de mongo
 public class TipoDocumento {
@@ -34,6 +37,10 @@ public class TipoDocumento {
     @Nonnull
     @Field("estado")
     private Estado estado;
+
+    @DBRef // indica que este campo es una referencia a otro documento en mongo
+    @Field("clientes")
+    private Set<Cliente> clientes = new HashSet<>();
 
     public TipoDocumento(String id, @Nonnull String sigla, @Nonnull String nombreDocumento, @Nonnull Estado estado) {
         this.id = id;

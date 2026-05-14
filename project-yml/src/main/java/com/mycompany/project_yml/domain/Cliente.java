@@ -2,11 +2,13 @@ package com.mycompany.project_yml.domain;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mongodb.lang.NonNull;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serial;
@@ -47,8 +49,12 @@ public class Cliente implements Serializable {
 
     @DBRef
     @Field("tipo_documento")
+    @JsonIgnoreProperties(value = {"clientes"}, allowSetters = true)
     private TipoDocumento tipoDocumento;
 
+    @DocumentReference
+    @Field("cuenta")
+    private Cuenta cuenta;
 
     public Cliente(String id, @NonNull String numerodocumento,@NonNull String primerNombre, String segundoNombre,@NonNull  String primerApellido, String segundoApellido) {
         this.id = id;
@@ -114,5 +120,13 @@ public class Cliente implements Serializable {
 
     public void setTipoDocumento(TipoDocumento tipoDocumento) {
         this.tipoDocumento = tipoDocumento;
+    }
+
+    public Cuenta getCuenta() {
+        return cuenta;
+    }
+
+    public void setCuenta(Cuenta cuenta) {
+        this.cuenta = cuenta;
     }
 }
