@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serial;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Document(collection = "tipo_documento") //esta anotacion indica que clase va a ser un documento de mongo
@@ -83,4 +84,15 @@ public class TipoDocumento {
     public void setEstado(@Nonnull Estado estado) {
         this.estado = estado;
     }
-}
+
+    @Override
+    public final boolean equals(Object o) {
+        if (!(o instanceof TipoDocumento that)) return false;
+
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }}
