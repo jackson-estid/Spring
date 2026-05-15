@@ -9,7 +9,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Document(collection = "factura")
 @CompoundIndex(name = "ixd_unique_factura", def = "{'numeroFactura': 1, 'anio': 1}", unique = true)
@@ -32,6 +34,7 @@ public class Factura implements Serializable {
     @JsonIgnoreProperties(value = { "tipoDocumento", "cuenta", "facturas" }, allowSetters = true)
     private Cliente cliente;
 
+    private Set<ProductoEmbedded> productos = new HashSet<>();
 
     public Factura(String id, long numeroFactura, int anio, Date fecha, double total, double iva, double subtotal) {
         this.id = id;
@@ -105,6 +108,14 @@ public class Factura implements Serializable {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public Set<ProductoEmbedded> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(Set<ProductoEmbedded> productos) {
+        this.productos = productos;
     }
 
     @Override
