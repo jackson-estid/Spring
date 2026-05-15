@@ -1,9 +1,23 @@
 package com.mycompany.project_yml.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class Factura {
+@Document(collection = "factura")
+@CompoundIndex(name = "ixd_unique_factura", def = "{'numeroFactura': 1, 'anio': 1}", unique = true)
+public class Factura implements Serializable {
+
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private String id;
     private long numeroFactura;
@@ -13,7 +27,11 @@ public class Factura {
     private double iva;
     private double subtotal;
 
+    @DBRef
+    @Field("cliente")
+    @JsonIgnoreProperties(value = { "tipoDocumento", "cuenta", "facturas" }, allowSetters = true)
     private Cliente cliente;
+
 
     public Factura(String id, long numeroFactura, int anio, Date fecha, double total, double iva, double subtotal) {
         this.id = id;

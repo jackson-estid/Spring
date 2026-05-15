@@ -59,6 +59,9 @@ public class Cliente implements Serializable {
     @Field("cuenta")
     private Cuenta cuenta;
 
+    @DBRef
+    @Field("facturas")
+    @JsonIgnoreProperties(value = { "cliente" }, allowSetters = true)
     private Set<Factura> facturaSet = new HashSet<>();
 
     public Cliente(String id, @NonNull String numerodocumento,@NonNull String primerNombre, String segundoNombre,@NonNull  String primerApellido, String segundoApellido) {
