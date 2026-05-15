@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mongodb.lang.NonNull;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -50,7 +49,7 @@ public class Cliente implements Serializable {
     @Field("segundoApellido")
     private String segundoApellido;
 
-    @DBRef
+    @DocumentReference
     @Field("tipo_documento")
     @JsonIgnoreProperties(value = {"clientes"}, allowSetters = true)
     private TipoDocumento tipoDocumento;
@@ -59,7 +58,7 @@ public class Cliente implements Serializable {
     @Field("cuenta")
     private Cuenta cuenta;
 
-    @DBRef
+    @DocumentReference
     @Field("facturas")
     @JsonIgnoreProperties(value = { "cliente" }, allowSetters = true)
     private Set<Factura> facturaSet = new HashSet<>();
