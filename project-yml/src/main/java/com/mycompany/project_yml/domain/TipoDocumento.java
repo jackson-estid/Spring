@@ -95,4 +95,15 @@ public class TipoDocumento {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
-    }}
+    }
+
+    @Override
+    public String toString() {
+        return "TipoDocumento{" +
+                "id='" + id + '\'' +
+                ", sigla='" + sigla + '\'' +
+                ", nombreDocumento='" + nombreDocumento + '\'' +
+                ", estado=" + estado +
+                '}';
+    }
+}
